@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="01 - JavaScript Drum Kit/style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="65" src="01 - JavaScript Drum Kit/sounds/clap.wav"></audio>
+  <audio data-key="83" src="01 - JavaScript Drum Kit/sounds/hihat.wav"></audio>
+  <audio data-key="68" src="01 - JavaScript Drum Kit/sounds/kick.wav"></audio>
+  <audio data-key="70" src="01 - JavaScript Drum Kit/sounds/openhat.wav"></audio>
+  <audio data-key="71" src="01 - JavaScript Drum Kit/sounds/boom.wav"></audio>
+  <audio data-key="72" src="01 - JavaScript Drum Kit/sounds/ride.wav"></audio>
+  <audio data-key="74" src="01 - JavaScript Drum Kit/sounds/snare.wav"></audio>
+  <audio data-key="75" src="01 - JavaScript Drum Kit/sounds/tom.wav"></audio>
+  <audio data-key="76" src="01 - JavaScript Drum Kit/sounds/tink.wav"></audio>
+
+<script>
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; //end function if propertyName doesn't equal transform
+    this.classList.remove('playing'); //remove 'playing' class from element that called this function
+  }
+
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); //store keyCode of pressed key as audio if there is an audio element for it, use to play audio
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`); //store keyCode of pressed key as audio if there is an audio element for it, use to set attribute
+    if (!audio) return; //end the function if there is no audio element with a data-key attribute that corresponds to stored keyCode
+
+    key.classList.add('playing'); //add 'playing' lass to key element that called function;
+    audio.currentTime = 0; //rewind audio to start if it's currently playing
+    audio.play(); //play audio that corresponds to data-key
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key')); //create an array of all key elements
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition)); //create an event listener for each key
+  window.addEventListener('keydown', playSound); //call playSound when a key is pressed
+</script>
+
+
+</body>
+</html>
