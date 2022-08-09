@@ -40,8 +40,31 @@
   }
 </style>
 
-<button></button>
+<button>Click Me!</button>
 <script>
+
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    console.log(this.target.value);
+    // e.stopPropagation(); // stops clicks from bubbling, when used with capture: true, only grabs top of bubble stack three click will return one
+    // console.log(this);
+  };
+
+  // document.body.addEventListener('click', logText);
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true //unbinds the event listener so it only fires once
+  })); //capture changes order of click tracking true goes down, false (default) goes up
+
+// allow a user to only click a button once
+button.addEventListener('click', () => {
+  console.log("Click!!!");
+}, {
+  once: true
+});
 
 </script>
 </body>
